@@ -116,6 +116,7 @@ function setup() {
   drawCanvas();
   update(towerData);
   setEventListeners();
+
 }
 
 
@@ -146,7 +147,7 @@ function drawCanvas() {
     option.html(optionsInfo[options[i]].text);
     option.parent(dropdown);
   }
-  dropdown.position(width * 0.04, height * 0.85);
+  dropdown.position(width * 0.02, height * 0.94);
 
   // create y-axis label
   var yAxisLabel = createDiv(optionsInfo[dropdown.elt.value].text + " (" + optionsInfo[dropdown.elt.value].unit + ")");
@@ -155,14 +156,14 @@ function drawCanvas() {
   yAxisLabel.id("yAxisLabel");
 
   // create x-axis label
-  var xAxisLabel = createDiv("minutes passed");
-  xAxisLabel.position(width * .41, height * 0.87);
+  var xAxisLabel = createDiv("Minutes Passed");
+  xAxisLabel.position(width * .41, height * 0.93);
   xAxisLabel.id("xAxisLabel");
 
   // create title
   title = createDiv("Most Recent Tower Data");
   title.id('title');
-  title.position(width * .5 - (textWidth("Tower Data Over The Last 30 Minutes")),  height * 0.08);
+  title.position(width * .5 - (textWidth("Tower Data Over The Last 30 Minutes")),  height * 0.14);
 }
 
 
@@ -184,8 +185,8 @@ function clearPresentData() {
 function saveData(weather) {
   var xMin = width * 0.15,
       xMax = width * 0.75,
-      yMin = height * 0.8,
-      yMax = height * 0.2;
+      yMin = height * 0.86,
+      yMax = height * 0.26;
 
   // weather.results returns an array of objects, with each index in the array
   // representing 1 minute and holding all sensor values (rain, temp, etc.) for that minute
@@ -229,49 +230,88 @@ function drawData() {
   drawMajorLines();
   drawXStrokes();
   drawYStrokes();
-  drawLine();
+  drawLineFancy();
 }
 
-
 function drawLine() {
-  for (var r = sensorValues.temperature_f.length; r >= 0; r--) {
-    stroke(14, 164, 252);
-    strokeWeight(4);
-    line(xCoordinates[r - 1], yCoordinates[r - 1], xCoordinates[r], yCoordinates[r]);
+
+    for (var r = sensorValues.temperature_f.length; r >= 0; r--) {
+      stroke(14, 164, 252);
+      strokeWeight(4);
+      ellipse(xCoordinates[r], yCoordinates[r], 5, 5);
+      stroke(14, 164, 252);
+      strokeWeight(4);
+      line(xCoordinates[r - 1], yCoordinates[r - 1], xCoordinates[r], yCoordinates[r]);
+    // ellipse(xCoordinates[r], yCoordinates[r], 5, 5);
+    }
+
+}
+
+function drawLineFancy() {
+  var r = 0;
+
+  function myLoop () {
+     setTimeout(function () {
+        stroke(14, 164, 252);
+        strokeWeight(4);
+        ellipse(xCoordinates[r], yCoordinates[r], 5, 5);
+        r++;
+        if (r <= sensorValues.temperature_f.length) {
+           myLoop();
+        } else {
+          connect();
+        }
+     }, 80)
+  }
+
+  myLoop(); 
+
+  function connect() {
+    for (var r = sensorValues.temperature_f.length; r >= 0; r--) {
+      stroke(14, 164, 252);
+      strokeWeight(4);
+      line(xCoordinates[r - 1], yCoordinates[r - 1], xCoordinates[r], yCoordinates[r]);
+    // ellipse(xCoordinates[r], yCoordinates[r], 5, 5);
+    }
   }
 }
 
 
 function drawMajorLines() {
-  var xMin = width * 0.15
-      xMax = width * 0.75
-      yMin = height * 0.8
-      yMax = height * 0.2;
+  var xMin = width * 0.15,
+      xMax = width * 0.75,
+      yMin = height * 0.86,
+      yMax = height * 0.26;
 
   stroke(86);
-  strokeWeight(1);
+  strokeWeight(2);
   line(xMin, yMin, xMax, yMin);
+  line(xMin, yMin,xMin, yMax);
+  // dottedLine(xMin, yMin, xMax, yMin, 6, 6, 0, 0.5);
 }
 
 
 function drawXStrokes(Xvalue) {
   var xMin = width * 0.15,
       xMax = width * 0.75,
-      yMin = height * 0.8,
-      yMax = height * 0.2;
+      yMin = height * 0.86,
+      yMax = height * 0.26;
 
   stroke(86, 86, 86, 100);
   strokeWeight(0.5);
+  textFont("Source Code Pro");
 
   for (var i = mappedValues.temperature_f.length; i >= 0; i--) {
     var x = map(i, mappedValues.temperature_f.length, 0, xMin, xMax);
-    line(x, yMin - 3, x, yMin + 3);
-    textSize(12);
+    // line(x, yMin - 3, x, yMin + 3);
+    dottedLine(x, yMin, x, yMax, 1, 3, 200, 1)
+
+
+    if (i % 2 == 1) {
+          textSize(12);
     fill(86);
     strokeWeight(1);
-    if (i % 2 == 1) {
-      textFont("Source Code Pro");
-      text(i, x, yMin + 20);
+      text(i, x - (textWidth(i) / 2 ), yMin + 20);
     }
   }
 }
@@ -279,16 +319,20 @@ function drawXStrokes(Xvalue) {
 
 function drawYStrokes() {
   var xMin = width * 0.15,
-      yMin = height * 0.8,
+      yMin = height * 0.86,
       xMax = width * 0.75,
-      yMax = height * 0.2;
+      yMax = height * 0.26;
 
   textFont("Source Code Pro");
 
   function draw(y, z) {
-    stroke(86, 86, 86, 100);
-    strokeWeight(0.25);
-    line(xMin - 3, y, xMax, y);
+    // stroke(86, 86, 86, 100);
+    // strokeWeight(0.25);
+    // line(xMin - 3, y, xMax, y);
+    dottedLine(xMin - 3, y, xMax, y, 1, 3, 200, 1);
+        textSize(12);
+    fill(86);
+    strokeWeight(1);
     text(z, xMin - 30, y + 5);
   }
 
@@ -334,7 +378,11 @@ function drawYStrokes() {
 }
 
 function mouseMoved() {
-  drawData();
+  background(248,252,252);
+  drawMajorLines();
+  drawXStrokes();
+  drawYStrokes();
+  drawLine();
   for (var r = sensorValues.temperature_f.length; r >= 0; r--) {
     stroke(14, 164, 252);
     fill(14, 164, 252);
@@ -342,7 +390,7 @@ function mouseMoved() {
     var space = (xCoordinates[r] - xCoordinates[r - 1]) / 2;
     if (mouseX <= xCoordinates[r] + space && mouseX >= xCoordinates[r] - space){
       stroke(50, 100);
-      line(xCoordinates[r], yCoordinates[r], xCoordinates[r], height * 0.8);
+      line(xCoordinates[r], yCoordinates[r], xCoordinates[r], height * 0.86);
       line(xCoordinates[r], yCoordinates[r], width * 0.15, yCoordinates[r]);
 
       stroke(14, 164, 252);
@@ -350,18 +398,47 @@ function mouseMoved() {
     }
   }
 }
+
 function setEventListeners() {
   $('#yAxis').change(function() {
     yVariable = this.value;
     console.log(this.value + "  " + sensorValues[this.value]);
     yCoordinates = mappedValues[this.value];
     $('#yAxisLabel').html(optionsInfo[this.value].text);
-    redraw();
+    drawData();
     updateSidebar();
   });
 
   window.setInterval(function(){
     loadJSON(towerUrl, update);
-    redraw();
+    drawData();
   }, 60000);
+}
+
+function dottedLine(sx, sy, ex, ey, size, space, s, sw) {
+  stroke(s);
+  strokeWeight(sw);
+  fill(0);
+  if (sx === ex) {
+    var range = dist(sx, sy, ex, ey);
+    var iterations = range / (size + space);
+    var unit = ((size + space) * 100 / range) / 100;
+    for (var i = 0; i <= iterations; i++) {
+      var spot = lerp(sy, ey, i * unit);
+      // ellipse(spot, sy, size, size);
+      line(sx, spot - (size / 2), ex, spot + (size / 2));
+    }
+
+
+  } else if (sy === ey) {
+    var range = dist(sx, sy, ex, ey);
+    var iterations = range / (size + space);
+    var unit = ((size + space) * 100 / range) / 100;
+    for (var i = 0; i <= iterations; i++) {
+      var spot = lerp(sx, ex, i * unit);
+      // ellipse(spot, sy, size, size);
+      line(spot - (size / 2), sy, spot + (size / 2), ey);
+    }
+  }
+
 }

@@ -278,3 +278,33 @@ h6 {
     font-family: 'Input Sans Regular';
     font-size: 0.625rem;
     line-height: 1.25rem; }
+
+.axisLabels{
+  font-family: 'Source Code Pro';
+  font-size: 16px;
+}
+
+#title {
+  font-family: 'Cousine';
+  font-size: 26px;
+}
+
+#yAxis {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: 'Cousine';
+  color: #ffffff;
+  font-size: 14px;
+  background: #000000;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  outline: none;
+}
+
+#yAxis:hover {
+  background: #474747;
+  text-decoration: none;
+  outline: none;
+}
+
