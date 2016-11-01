@@ -308,3 +308,40 @@ h6 {
   outline: none;
 }
 
+#sourceButtons {
+  position: absolute;
+  width: 15%;
+  height: 9%;
+  top: 15%;
+  left: 2%;
+  /*background: #f3f3f3;*/
+}
+  #tower, #water, #outpost {
+  /*position: relative;*/
+  display: inline-block;
+  height: 100%;
+  width: 30%;
+  vertical-align: bottom;
+  line-height: 75px;
+  }
+
+  .sourceIcon {
+    vertical-align: middle;
+  }
+
+  #towerIcon {
+    width:auto; /* you can use % */
+    height: 70%;
+    
+  }
+
+  #outpostIcon {
+    width:auto; /* you can use % */
+    height: 100%;
+
+  }
+
+  #waterIcon {
+    width:auto; /* you can use % */
+    height: 60%;
+  }

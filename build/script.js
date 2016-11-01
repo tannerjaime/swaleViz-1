@@ -10,9 +10,9 @@
 
 
 var bottomBarTemplate = $('#handlebars-data-bar').html(),
-    bottomBarTemplateScript = Handlebars.compile(bottomBarTemplate),
-    sidebarTemplate = $('#handlebars-snapshot').html(),
-    sidebarTemplateScript = Handlebars.compile(sidebarTemplate);
+    bottomBarTemplateScript = Handlebars.compile(bottomBarTemplate);
+    // sidebarTemplate = $('#handlebars-snapshot').html(),
+    // sidebarTemplateScript = Handlebars.compile(sidebarTemplate);
 
 
 function updateBottomBar() {
@@ -33,23 +33,23 @@ function updateBottomBar() {
   // $('#num-minutes').html(sensorValues[yVariable].length);
 }
 
-function updateSidebar() {
-  var sidebarData = {},
-      currentCat = dropdown.elt.value,
-      lastIdx = sensorValues[currentCat].length - 1;
+// function updateSidebar() {
+//   var sidebarData = {},
+//       currentCat = dropdown.elt.value,
+//       lastIdx = sensorValues[currentCat].length - 1;
 
-  sidebarData.current = sensorValues[currentCat][lastIdx];
-  sidebarData.high = Math.max(...sensorValues[currentCat]);
-  sidebarData.low = Math.min(...sensorValues[currentCat]);
-  sidebarData.unit = optionsInfo[currentCat].unit;
+//   sidebarData.current = sensorValues[currentCat][lastIdx];
+//   sidebarData.high = Math.max(...sensorValues[currentCat]);
+//   sidebarData.low = Math.min(...sensorValues[currentCat]);
+//   sidebarData.unit = optionsInfo[currentCat].unit;
 
-  var compiledHTML = sidebarTemplateScript(sidebarData);
-  $('.data-snapshot').empty();
-  $('.data-snapshot').append(compiledHTML);
+//   var compiledHTML = sidebarTemplateScript(sidebarData);
+//   $('.data-snapshot').empty();
+//   $('.data-snapshot').append(compiledHTML);
 
-  $('#data-category').html(optionsInfo[currentCat].text);
-  $('#data-description').html(optionsInfo[currentCat].description);
-}
+//   $('#data-category').html(optionsInfo[currentCat].text);
+//   $('#data-description').html(optionsInfo[currentCat].description);
+// }
 
 function formatCelsiusTemp(temp) {
   temp = temp.toString();
@@ -66,6 +66,13 @@ var options = ["wind_speed_mph", "temperature_f", "rain_in", "humidity_per", "wi
     mappedValues,
     sensorValues,
     dropdown,
+    button1, 
+    button2,
+    button3,
+    img1,
+    img2,
+    img3,
+    allButtons,
     title;
 
 var optionsInfo = {
@@ -129,7 +136,7 @@ function update(weather) {
 
 function updateDataSnapshots() {
   updateBottomBar();
-  updateSidebar();
+  // updateSidebar();
 }
 
 
@@ -137,7 +144,35 @@ function drawCanvas() {
   // create graph canvas
   createCanvas(windowWidth, windowHeight * 0.75);
   background(248,252,252);
+  img1 = createImg("assets/images/TOWER_noun_91800_cc-01-01.png");
+  img2 = createImg("assets/images/PLANT_noun_651478_cc-01.png");
+  img3 = createImg("assets/images/WATER_swale-icons-01.png");
 
+  allButtons = createElement('div');
+  allButtons.id('sourceButtons');
+  //create buttons 
+  button1 = createElement('div');
+  button2 = createElement('div');
+  button3 = createElement('div');
+
+  button1.id('tower');
+  button2.id('outpost');
+  button3.id('water');
+
+
+  img1.parent(button1); 
+  img2.parent(button2);
+  img3.parent(button3);
+  button1.parent(allButtons);
+  button2.parent(allButtons);
+  button3.parent(allButtons);
+
+  img1.id('towerIcon');
+  img2.id('outpostIcon');
+  img3.id('waterIcon');
+  img1.class("sourceIcon");
+  img2.class("sourceIcon");
+  img3.class("sourceIcon");
   // create dropdown menu for data types
   dropdown = createElement('select');
   dropdown.id('yAxis');
@@ -151,19 +186,19 @@ function drawCanvas() {
 
   // create y-axis label
   var yAxisLabel = createDiv(optionsInfo[dropdown.elt.value].text + " (" + optionsInfo[dropdown.elt.value].unit + ")");
-  yAxisLabel.position(width * .15 - 130, height / 2);
+  yAxisLabel.position(width * .23 - 130, height / 2);
   yAxisLabel.style('transform', 'rotate(270deg)');
   yAxisLabel.id("yAxisLabel");
 
   // create x-axis label
   var xAxisLabel = createDiv("Minutes Passed");
-  xAxisLabel.position(width * .41, height * 0.93);
+  xAxisLabel.position(width * .51, height * 0.93);
   xAxisLabel.id("xAxisLabel");
 
-  // create title
-  title = createDiv("Most Recent Tower Data");
-  title.id('title');
-  title.position(width * .5 - (textWidth("Tower Data Over The Last 30 Minutes")),  height * 0.14);
+  // // create title
+  // title = createDiv("Most Recent Tower Data");
+  // title.id('title');
+  // title.position(width * .5 - (textWidth("Tower Data Over The Last 30 Minutes")),  height * 0.14);
 }
 
 
@@ -183,8 +218,8 @@ function clearPresentData() {
 
 
 function saveData(weather) {
-  var xMin = width * 0.15,
-      xMax = width * 0.75,
+  var xMin = width * 0.23,
+      xMax = width * 0.95,
       yMin = height * 0.86,
       yMax = height * 0.26;
 
@@ -278,8 +313,8 @@ function drawLineFancy() {
 
 
 function drawMajorLines() {
-  var xMin = width * 0.15,
-      xMax = width * 0.75,
+  var xMin = width * 0.23,
+      xMax = width * 0.95,
       yMin = height * 0.86,
       yMax = height * 0.26;
 
@@ -292,8 +327,8 @@ function drawMajorLines() {
 
 
 function drawXStrokes(Xvalue) {
-  var xMin = width * 0.15,
-      xMax = width * 0.75,
+  var xMin = width * 0.23,
+      xMax = width * 0.95,
       yMin = height * 0.86,
       yMax = height * 0.26;
 
@@ -318,9 +353,9 @@ function drawXStrokes(Xvalue) {
 
 
 function drawYStrokes() {
-  var xMin = width * 0.15,
+  var xMin = width * 0.23,
       yMin = height * 0.86,
-      xMax = width * 0.75,
+      xMax = width * 0.95,
       yMax = height * 0.26;
 
   textFont("Source Code Pro");
@@ -379,6 +414,10 @@ function drawYStrokes() {
 
 function mouseMoved() {
   background(248,252,252);
+  var xMin = width * 0.23,
+    yMin = height * 0.86,
+    xMax = width * 0.95,
+    yMax = height * 0.26;
   drawMajorLines();
   drawXStrokes();
   drawYStrokes();
@@ -391,7 +430,7 @@ function mouseMoved() {
     if (mouseX <= xCoordinates[r] + space && mouseX >= xCoordinates[r] - space){
       stroke(50, 100);
       line(xCoordinates[r], yCoordinates[r], xCoordinates[r], height * 0.86);
-      line(xCoordinates[r], yCoordinates[r], width * 0.15, yCoordinates[r]);
+      line(xCoordinates[r], yCoordinates[r], xMin, yCoordinates[r]);
 
       stroke(14, 164, 252);
       ellipse(xCoordinates[r], yCoordinates[r], 10, 10);
@@ -406,7 +445,7 @@ function setEventListeners() {
     yCoordinates = mappedValues[this.value];
     $('#yAxisLabel').html(optionsInfo[this.value].text);
     drawData();
-    updateSidebar();
+    // updateSidebar();
   });
 
   window.setInterval(function(){
