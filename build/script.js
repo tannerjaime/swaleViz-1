@@ -72,6 +72,7 @@ var options = ["wind_speed_mph", "temperature_f", "rain_in", "humidity_per", "wi
     img1,
     img2,
     img3,
+    source,
     allButtons,
     title;
 
@@ -173,6 +174,18 @@ function drawCanvas() {
   img1.class("sourceIcon");
   img2.class("sourceIcon");
   img3.class("sourceIcon");
+
+  source = createElement('p', "TOWER");
+  source.id('source');
+
+  descriptContainer = createElement('div');
+  descriptContainer.id('descriptContainer');
+
+  sourceDesc = createElement('span', "Infomation received from the weather station");
+  sourceDesc.id('sourceDesc');
+
+  sourceDesc.parent(descriptContainer);
+
   // create dropdown menu for data types
   dropdown = createElement('select');
   dropdown.id('yAxis');
@@ -452,6 +465,47 @@ function setEventListeners() {
     loadJSON(towerUrl, update);
     drawData();
   }, 60000);
+
+  $('#tower').click(function() {
+    if ($(this).hasClass('active')) {
+      // opt1 = false;
+      $(this).removeClass('active');
+      console.log("hi");
+    } else {
+      // opt1 = true;
+      $(this).addClass('active');
+      console.log("bye");
+    }
+    // handlePress();
+  });
+
+  $('#outpost').click(function() {
+    if ($(this).hasClass('active')) {
+      // opt1 = false;
+      $(this).removeClass('active');
+      console.log("hi");
+    } else {
+      // opt1 = true;
+      $(this).addClass('active');
+      console.log("bye");
+    }
+    // handlePress();
+  });
+
+  $('#water').click(function() {
+    if ($(this).hasClass('active')) {
+      // opt1 = false;
+      $(this).removeClass('active');
+      console.log("hi");
+    } else {
+      // opt1 = true;
+      $(this).addClass('active');
+      console.log("bye");
+    }
+    // handlePress();
+  });
+
+
 }
 
 function dottedLine(sx, sy, ex, ey, size, space, s, sw) {

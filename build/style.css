@@ -314,6 +314,7 @@ h6 {
   height: 9%;
   top: 15%;
   left: 2%;
+
   /*background: #f3f3f3;*/
 }
   #tower, #water, #outpost {
@@ -323,6 +324,7 @@ h6 {
   width: 30%;
   vertical-align: bottom;
   line-height: 75px;
+  border-bottom: 0.5px #c9c9c9 solid;
   }
 
   .sourceIcon {
@@ -344,4 +346,33 @@ h6 {
   #waterIcon {
     width:auto; /* you can use % */
     height: 60%;
+  }
+
+  #source {
+    position: absolute;
+    /*width: 15%;*/
+    top: 25%;
+    left:2%;
+    font-family: 'DINPro Medium';
+    font-size: 2rem;
+    /*border-bottom: 0.5px #c9c9c9 solid;*/
+  }
+
+  #descriptContainer {
+    position: absolute;
+    top: 30%;
+    width: 15%;
+    left: 2%;
+    height: 7%;
+    border-top: 0.5px #c9c9c9 solid;
+    border-bottom: 0.5px #c9c9c9 solid;
+    font-family: 'DINPro Regular';
+    font-size: 0.60rem;
+    text-transform: uppercase;
+    /*vertical-align: middle;*/
+
+  }
+
+  #descriptContainer #sourceDesc{
+      line-height: 200;
   }
